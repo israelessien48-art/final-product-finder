@@ -3,10 +3,11 @@ import { getProducts } from "./api.js";
 
 const container = document.getElementById("product-container");
 const searchInput = document.getElementById("search-input");
+const categoryFilter = document.getElementById("category-filter");
 
 let allProducts = [];
 
-// Render products
+// 🔹 Render products
 function renderProducts(products) {
   container.innerHTML = "";
 
@@ -25,25 +26,44 @@ function renderProducts(products) {
       <p>$${product.price}</p>
     `;
 
+    // ✅ CLICK → go to product page
+    card.addEventListener("click", () => {
+      window.location.href = `product.html?id=${product.id}`;
+    });
+
     container.appendChild(card);
   });
 }
 
-// Filter products
-function filterProducts(searchTerm) {
-  const filtered = allProducts.filter(product =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+// 🔹 Combined filter (search + category)
+function applyFilters() {
+  const searchTerm = searchInput.value.toLowerCase();
+  const selectedCategory = categoryFilter.value;
+
+  let filtered = allProducts;
+
+  // filter by search
+  if (searchTerm) {
+    filtered = filtered.filter(product =>
+      product.title.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  // filter by category
+  if (selectedCategory !== "all") {
+    filtered = filtered.filter(product =>
+      product.category === selectedCategory
+    );
+  }
 
   renderProducts(filtered);
 }
 
-// Search event
-searchInput.addEventListener("input", (e) => {
-  filterProducts(e.target.value);
-});
+// 🔹 Events
+searchInput.addEventListener("input", applyFilters);
+categoryFilter.addEventListener("change", applyFilters);
 
-// Initialize app
+// 🔹 Initialize app
 async function init() {
   allProducts = await getProducts();
   renderProducts(allProducts);

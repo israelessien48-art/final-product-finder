@@ -10,23 +10,22 @@
 
   <h1>Product Finder</h1>
 
-  <!-- Search -->
-  <input 
-    type="text" 
-    id="search-input" 
-    placeholder="Search products..."
-  >
+  <div class="controls">
+    <input 
+      type="text" 
+      id="search-input" 
+      placeholder="Search products..."
+    >
 
-  <!-- Category Filter -->
-  <select id="category-filter">
-    <option value="all">All Categories</option>
-    <option value="men's clothing">Men's Clothing</option>
-    <option value="women's clothing">Women's Clothing</option>
-    <option value="electronics">Electronics</option>
-    <option value="jewelery">Jewelery</option>
-  </select>
+    <select id="category-filter">
+      <option value="all">All Categories</option>
+      <option value="men's clothing">Men's Clothing</option>
+      <option value="women's clothing">Women's Clothing</option>
+      <option value="electronics">Electronics</option>
+      <option value="jewelery">Jewelery</option>
+    </select>
+  </div>
 
-  <!-- Products -->
   <div id="product-container"></div>
 
   <script type="module" src="./js/app.js"></script>

@@ -1,8 +1,5 @@
-// js/product.js
-
 const container = document.getElementById("product-details");
 
-// get product ID from URL
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -13,15 +10,15 @@ async function getProduct() {
 
     renderProduct(product);
   } catch (error) {
-    console.error("Error loading product:", error);
-    container.innerHTML = "<p>Failed to load product</p>";
+    console.error(error);
+    container.innerHTML = "<p>Error loading product</p>";
   }
 }
 
 function renderProduct(product) {
   container.innerHTML = `
     <div class="product-detail">
-      <img src="${product.image}" alt="${product.title}">
+      <img src="${product.image}">
       <h2>${product.title}</h2>
       <p>${product.description}</p>
       <p><strong>$${product.price}</strong></p>
@@ -30,7 +27,6 @@ function renderProduct(product) {
   `;
 }
 
-// go back to homepage
 function goBack() {
   window.location.href = "index.html";
 }

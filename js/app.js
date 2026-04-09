@@ -1,4 +1,3 @@
-// js/app.js
 import { getProducts } from "./api.js";
 
 const container = document.getElementById("product-container");
@@ -6,6 +5,17 @@ const searchInput = document.getElementById("search-input");
 const categoryFilter = document.getElementById("category-filter");
 
 let allProducts = [];
+
+// ⭐ Save favorite
+function saveFavorite(product) {
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  if (!favorites.find(p => p.id === product.id)) {
+    favorites.push(product);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    alert("Added to favorites ❤️");
+  }
+}
 
 // 🔹 Render products
 function renderProducts(products) {
@@ -24,36 +34,39 @@ function renderProducts(products) {
       <img src="${product.image}" alt="${product.title}">
       <h3>${product.title}</h3>
       <p>$${product.price}</p>
+      <button class="fav-btn">❤️</button>
     `;
 
-    // ✅ CLICK → go to product page
+    // 👉 Click product → details page
     card.addEventListener("click", () => {
       window.location.href = `product.html?id=${product.id}`;
+    });
+
+    // ❤️ Favorite button
+    card.querySelector(".fav-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      saveFavorite(product);
     });
 
     container.appendChild(card);
   });
 }
 
-// 🔹 Combined filter (search + category)
+// 🔹 Filter logic
 function applyFilters() {
   const searchTerm = searchInput.value.toLowerCase();
-  const selectedCategory = categoryFilter.value;
+  const category = categoryFilter.value;
 
   let filtered = allProducts;
 
-  // filter by search
   if (searchTerm) {
-    filtered = filtered.filter(product =>
-      product.title.toLowerCase().includes(searchTerm)
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(searchTerm)
     );
   }
 
-  // filter by category
-  if (selectedCategory !== "all") {
-    filtered = filtered.filter(product =>
-      product.category === selectedCategory
-    );
+  if (category !== "all") {
+    filtered = filtered.filter(p => p.category === category);
   }
 
   renderProducts(filtered);
@@ -63,8 +76,9 @@ function applyFilters() {
 searchInput.addEventListener("input", applyFilters);
 categoryFilter.addEventListener("change", applyFilters);
 
-// 🔹 Initialize app
+// 🔹 Init
 async function init() {
+  container.innerHTML = "<p>Loading products...</p>";
   allProducts = await getProducts();
   renderProducts(allProducts);
 }

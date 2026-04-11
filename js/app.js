@@ -21,7 +21,7 @@ function saveFavorite(product) {
 function renderProducts(products) {
   container.innerHTML = "";
 
-  if (products.length === 0) {
+  if (!products || products.length === 0) {
     container.innerHTML = "<p>No products found</p>";
     return;
   }
@@ -37,12 +37,12 @@ function renderProducts(products) {
       <button class="fav-btn">❤️</button>
     `;
 
-    // 👉 Click product → details page
+    // Navigate to product page
     card.addEventListener("click", () => {
       window.location.href = `product.html?id=${product.id}`;
     });
 
-    // ❤️ Favorite button
+    // Favorite button
     card.querySelector(".fav-btn").addEventListener("click", (e) => {
       e.stopPropagation();
       saveFavorite(product);
@@ -72,11 +72,11 @@ function applyFilters() {
   renderProducts(filtered);
 }
 
-// 🔹 Events
+// Events
 searchInput.addEventListener("input", applyFilters);
 categoryFilter.addEventListener("change", applyFilters);
 
-// 🔹 Init
+// Init
 async function init() {
   container.innerHTML = "<p>Loading products...</p>";
   allProducts = await getProducts();

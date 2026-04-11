@@ -6,9 +6,13 @@ const id = params.get("id");
 async function getProduct() {
   try {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+
+    if (!res.ok) throw new Error("Failed");
+
     const product = await res.json();
 
     renderProduct(product);
+
   } catch (error) {
     console.error(error);
     container.innerHTML = "<p>Error loading product</p>";

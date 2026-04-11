@@ -6,7 +6,7 @@ const categoryFilter = document.getElementById("category-filter");
 
 let allProducts = [];
 
-// ⭐ Save favorite
+// Save favorites
 function saveFavorite(product) {
   let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
@@ -17,7 +17,7 @@ function saveFavorite(product) {
   }
 }
 
-// 🔹 Render products
+// Render products
 function renderProducts(products) {
   container.innerHTML = "";
 
@@ -31,18 +31,16 @@ function renderProducts(products) {
     card.classList.add("product-card");
 
     card.innerHTML = `
-      <img src="${product.image}" alt="${product.title}">
+      <img src="${product.image || './images/product1.jpg'}" alt="${product.title}">
       <h3>${product.title}</h3>
       <p>$${product.price}</p>
       <button class="fav-btn">❤️</button>
     `;
 
-    // Navigate to product page
     card.addEventListener("click", () => {
       window.location.href = `product.html?id=${product.id}`;
     });
 
-    // Favorite button
     card.querySelector(".fav-btn").addEventListener("click", (e) => {
       e.stopPropagation();
       saveFavorite(product);
@@ -52,7 +50,7 @@ function renderProducts(products) {
   });
 }
 
-// 🔹 Filter logic
+// Filters
 function applyFilters() {
   const searchTerm = searchInput.value.toLowerCase();
   const category = categoryFilter.value;

@@ -8,21 +8,28 @@ export async function getProducts() {
       throw new Error("Failed to fetch products");
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
 
   } catch (error) {
     console.error("API Error:", error);
 
-    // 👇 fallback so your site NEVER looks empty
+    // ✅ fallback (guarantees products show)
     return [
       {
         id: 1,
-        title: "Sample Product",
-        price: 100,
+        title: "Sample Product 1",
+        price: 50,
         category: "electronics",
-        image: "https://via.placeholder.com/150",
-        description: "Fallback product (API failed)"
+        image: "./images/product1.jpg",
+        description: "Local fallback product"
+      },
+      {
+        id: 2,
+        title: "Sample Product 2",
+        price: 80,
+        category: "men's clothing",
+        image: "./images/product2.jpg",
+        description: "Local fallback product"
       }
     ];
   }

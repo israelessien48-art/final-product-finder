@@ -15,14 +15,21 @@ async function getProduct() {
 
   } catch (error) {
     console.error(error);
-    container.innerHTML = "<p>Error loading product</p>";
+    container.innerHTML = `
+      <div class="product-detail">
+        <img src="./images/product1.jpg">
+        <h2>Fallback Product</h2>
+        <p>Unable to load product details.</p>
+        <button onclick="goBack()">⬅ Back</button>
+      </div>
+    `;
   }
 }
 
 function renderProduct(product) {
   container.innerHTML = `
     <div class="product-detail">
-      <img src="${product.image}">
+      <img src="${product.image || './images/product1.jpg'}">
       <h2>${product.title}</h2>
       <p>${product.description}</p>
       <p><strong>$${product.price}</strong></p>
